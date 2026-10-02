@@ -97,7 +97,6 @@ async def on_message(message):
   if message.author == bot.user:
     return
 
-  # メンションされた場合、またはDMでの発言に応答
   if bot.user.mentioned_in(message) or isinstance(
       message.channel, discord.DMChannel
   ):
