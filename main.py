@@ -89,7 +89,7 @@ bot = discord.Client(intents=intents)
 
 @bot.event
 async def on_ready():
-  print(f"Logged in as {bot.user}")
+  print(f"Logged in as {bot.user}", flush=True)
 
 
 @bot.event
@@ -107,7 +107,7 @@ async def on_message(message):
     async with message.channel.typing():
       try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-2.0-flash",
             contents=clean_content,
             config=types.GenerateContentConfig(
                 system_instruction=ALICE_PROMPT,
@@ -116,7 +116,7 @@ async def on_message(message):
         )
         await message.channel.send(response.text)
       except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error details: {e}", flush=True)
         await message.channel.send(
             "あわわ…エラーが発生してしまいました…！HPが足りないのかもしれません。"
         )
