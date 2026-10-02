@@ -9,25 +9,22 @@ from google.genai import types
 
 # Renderの起動チェック（Port scan timeout）をパスするためのダミーサーバー
 def keep_alive():
-  port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 10000))
 
-  class HealthCheckHandler(http.server.SimpleHTTPRequestHandler):
+    class HealthCheckHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
 
-      def do_GET(self):
-      self.send_response(200)
-      self.send_header("Content-type", "text/html; charset=utf-8")
-      self.end_headers()
-      self.wfile.write(b"I am alive! Alice is ready! (パンパカパーン！)")
+        def log_message(self, format, *args):
+            pass
 
-
-    def log_message(self, format, *args):
-      pass
-
-  try:
-    server = socketserver.TCPServer(("0.0.0.0", port), HealthCheckHandler)
-    server.serve_forever()
-  except Exception:
-    pass
+    try:
+        server = socketserver.TCPServer(("0.0.0.0", port), HealthCheckHandler)
+        server.serve_forever()
+    except Exception:
+        pass
 
 
 # バックグラウンドでダミーサーバーを起動
