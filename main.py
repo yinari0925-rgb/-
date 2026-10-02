@@ -13,10 +13,12 @@ def keep_alive():
 
   class HealthCheckHandler(http.server.SimpleHTTPRequestHandler):
 
-    def do_GET(self):
+      def do_GET(self):
       self.send_response(200)
+      self.send_header("Content-type", "text/html; charset=utf-8")
       self.end_headers()
-      self.wfile.write(b"OK")
+      self.wfile.write(b"I am alive! Alice is ready! (パンパカパーン！)")
+
 
     def log_message(self, format, *args):
       pass
